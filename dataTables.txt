@@ -1,0 +1,4 @@
+Anonüümsed sõnumid 
+
+
+CREATE TABLE `if18_Henri_Ta_1`.`vpamsg3` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `message` VARCHAR(256) NOT NULL , `validator` INT(11) NULL , `valid` INT(1) NULL , `validated` DATETIME NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
