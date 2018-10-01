@@ -3,26 +3,49 @@ require("../../../config.php");
 //echo $GLOBALS["serverHost"];
 //echo $GLOBALS["serverUsername"];
 //echo $GLOBALS["serverPassword"];
-$database =  "if18_Henri_Ta_1";
-
+$database = "if18_Henri_Ta_1";
 function saveAMsg($msg){
-	//echo "Töötab!";
-	$notice = ""; //see on teade, mis antakse salvestamise kohta 
-	//loome ühenduse andmebaasiserveriga
+  //echo "Töötab!";
+  $notice = ""; //see on teade, mis antakse salvestamise kohta
+  //loome ühenduse andmebaasiserveriga
+  $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+  //Valmistame ette SQL päringu
+  $stmt = $mysqli->prepare("INSERT INTO vpamsg3 (message) VALUES(?)");
+  echo $mysqli->error;
+  $stmt->bind_param("s", $msg);//s - string, i - integer, d - decimal
+  if ($stmt->execute()){
+	$notice = 'Sõnum: "' .$msg .'" on salvestatud!';  
+  } else {
+	$notice = "Sõnumi salvestamisel tekkis tõrge: " .$stmt->error;
+  }
+  $stmt->close();
+  $mysqli->close();
+  return $notice;
+}
+  function readallmessages(){
+	$notice = "";
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-	//valmistame ette SQL päringu
-	$stmt = $mysqli->prepare("INSERT INTO vpamsg3 (message) VALUES(?)");
+	$stmt = $mysqli->prepare("SELECT message FROM vpamsg3");
 	echo $mysqli->error;
-	$stmt->bind_param("s", $msg);//s - string, i - integer, d - decimal
-	if ($stmt->execute()) {
-		$notice = 'Sõnum: "' .$msg .'"on salvestatud!';
-	} else {
-		$notice = "Sõnumi salvestamisel tekkis tõrge: " .$stmt->error;
+	$stmt->bind_result($msg);
+	$stmt->execute();
+	while($stmt->fetch()){
+		$notice .= "<p>" .$msg ."</p> \n";
 	}
 	$stmt->close();
 	$mysqli->close();
 	return $notice;
+  }
+?>
+<?php
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
 }
+?>
+<?php
 function addACat($catname, $catcolor, $cattaillength) {
     $notice = "";
     $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]); // connecting to DB
