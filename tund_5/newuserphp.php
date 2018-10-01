@@ -9,6 +9,7 @@ $fullName = $name ." " .$surname;
 $birthMonth = null;
 $birthYear = null;
 $birthDay = null;
+$birthDate = null;
 $monthNamesET = ["jaanuar", "veebruar", "märts", "aprill"
 , "mai", "juuni","juuli", "august", "september", "oktoober", "november", "detsember"];
 
@@ -39,15 +40,38 @@ if (isset($_POST["surName"])) {
    }
    
 if(isset($_POST["gender"])) {
-	$gender = $_POST["gender"];
+	$gender = intval($_POST["gender"]);
 	} else {
 		$genderError = "Palun märgi sugu!";
 	}
-   
+//kontrollime sünniaega
+if(isset($_POST["birthDay"])){
+	$birthDay = $_POST["birthDay"];
+} 
+if(isset($_POST["birthMonth"])){
+	$birthMonth = $_POST["birthMonth"];
+}
+if(isset($_POST["birthYear"])){
+	$birthYear = $_POST["birthYear"];
+}
+//kontrollin küüpäeva õigsust
+if(isset($_POST["birthDay"]) and (isset($_POST["birthMonth"])) and (isset($_POST["birthYear"]))) {
+	if(checkdate(intval($_POST["birthMonth"]),intval($_POST["birthDay"]), intval($_POST["birthYear"])))
+	$birthDate = date_create($_POST["birthMonth"] ."/" .$_POST["birthDay"] ."/" .$_POST["birthYear"]);
+	$birthDate = date_format($birthDate, "Y-m-d");
+} else { 
+	$birthYearError = "Kuupäev on vigane!";
+}
+//checkdate(päev, kuu, aasta)
+//kui kõik korras siis salvestab kasutaja
+if(empty($nameError) and empty($surnameError) and empty($birthMonthError) and empty($birthYearError) and empty($birthDayError) and empty($emailError) and empty($genderError) and empty($passwordError)) {
+	$notice = signup ($name, $surname, $email, $gender, $birthDate, $_post["password"]);
+	echo $notice;
+}
 } //kui on nuppu vajutatud - lõppeb
+//echo "Kuupäev tuli: " .$birthDate;
 
-
-function fullName() {
+function name() {
 $GLOBALS["fullName"] = $GLOBALS["name"] . " " .$GLOBALS["surname"];
 	//echo $fullName;
 }
@@ -85,6 +109,7 @@ $GLOBALS["fullName"] = $GLOBALS["name"] . " " .$GLOBALS["surname"];
 		  echo " checked";
 	  }
 	?><Label>Naine</label>
+	
 	<input type="radio" name = "gender" value ="1"
 	<?php
 	  if($gender == "1") {
