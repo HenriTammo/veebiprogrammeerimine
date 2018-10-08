@@ -16,16 +16,16 @@ function signup ($name, $surname, $email, $gender, $birthDate, $password) {
 	"salt" => substr(sha1(rand()), 0, 22),
 	];
 	$pwdhash = password_hash($password, PASSWORD_BCRYPT, $options);
-	$stmt->bind_param("sssiss", $name, $surname, $email, $gender, $birthDate, $pwdhash);
+	$stmt->bind_param("sssiss", $name, $surname, $birthDate, $gender, $email);
 	if($stmt->execute()){
 		$notice = "ok";
 	} else {
-		$notice = "error" .$stmt->error;
+	  $notice = "error" .$stmt->error;	
 	}
 	$stmt->close();
 	$mysqli->close();
 	return $notice;
-}
+  }
 
 function saveAMsg($msg){
   //echo "Töötab!";

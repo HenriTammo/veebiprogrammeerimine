@@ -1,4 +1,4 @@
-<?php
+          <?php
 require ("functions.php");
 
 $name = "";
@@ -202,6 +202,8 @@ $GLOBALS["fullName"] = $GLOBALS["name"] . " " .$GLOBALS["surname"];
     <br>
     <input name="submitUserData" type="submit" value="Loo kasutaja">
   </form>
+  <hr>
+  <p><a href="leht3.php">Tagasi</a> avalehele!</p>
 
 </body>
 </html>
