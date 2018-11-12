@@ -8,6 +8,16 @@ $database = "if18_Henri_Ta_1";
  //alustan sessiooni
  session_start();
  
+   function validatemessage () {
+	   $notice = "";
+	   $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+	   $stmt = $mysqli->prepare("UPDATE vpamsg3 SET validator=?, valid=?, validated=now() WHERE id=?");
+	   $stmt->bind_result($msg);
+	   $stmt->close();
+	   $mysqli->close();
+	   return $notice;
+   }
+ 
    function readmsgforvalidation($editId){
 	$notice = "";
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);

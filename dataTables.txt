@@ -9,3 +9,6 @@ CREATE TABLE `if18_Henri_Ta_1`.`vpamsg3` ( `id` INT(11) NOT NULL AUTO_INCREMENT 
 
 
 CREATE TABLE if18_andri_ka_1. ( if INT(18) NOT NULL , firstname VARCHAR(30) NOT NULL , lastname VARCHAR(30) NOT NULL , birthdate DATE NOT NULL , gender INT(1) NOT NULL , email VARCHAR(100) NOT NULL , password VARCHAR(60) NOT NULL , created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (if)) ENGINE = InnoDB;
+
+üleslaetavad pildid
+CREATE TABLE `if18_Henri_Ta_1`.`vp_photos` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `userid` INT(11) NOT NULL , `filename` VARCHAR(40) NOT NULL , `created` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , `privacy` INT(1) NOT NULL , `deleted` TIMESTAMP NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
